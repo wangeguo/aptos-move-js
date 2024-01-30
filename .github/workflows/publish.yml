@@ -24,6 +24,7 @@ jobs:
         with:
           toolchain: nightly
           target: wasm32-wasi
+          components: rust-src
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
