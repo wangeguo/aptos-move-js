@@ -17,19 +17,15 @@ jobs:
       packages: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Rust Toolchain
-        uses: actions-rs/toolchain@v1
+        uses: taiki-e/setup-cross-toolchain-action@v1
         with:
-          toolchain: nightly-2024-01-10
           target: wasm32-wasi
-          components: rustfmt, rust-src, clippy
-          default: true
-          profile: minimal
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
           registry-url: https://npm.pkg.github.com
