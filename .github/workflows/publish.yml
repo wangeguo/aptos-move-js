@@ -22,8 +22,9 @@ jobs:
       - name: Setup Rust Toolchain
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: nightly
+          toolchain: nightly-2024-01-10
           target: wasm32-wasi,nightly-x86_64-unknown-linux-gnu
+          components: rustfmt,clippy
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
