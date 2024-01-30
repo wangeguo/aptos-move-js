@@ -1,0 +1,50 @@
+name: Release to ghcr.io
+
+on:
+  push:
+    branches:
+      - aptos
+      - ci-test
+  pull_request:
+    branches:
+      - aptos
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2024-01-10
+          target: wasm32-wasi
+          components: rustfmt, rust-src, clippy
+          default: true
+          profile: minimal
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          registry-url: https://npm.pkg.github.com
+          scope: "@${{ github.repository_owner }}"
+
+      - name: Setup registry
+        run: echo @${{ github.repository_owner }}:registry=https://npm.pkg.github.com >> .npmrc
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
+
+      - name: Publish package
+        run: yarn release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
