@@ -24,7 +24,7 @@ jobs:
         with:
           toolchain: nightly-2024-01-10
           target: wasm32-wasi,nightly-x86_64-unknown-linux-gnu
-          components: rustfmt,clippy
+          components: rustfmt,clippy,rust-std
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
